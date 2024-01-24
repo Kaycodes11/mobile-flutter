@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'currency_converter_material_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // when returning an widget (e.g. Text), use 'const'
     // return const Text("Hello, Flutter", textDirection: TextDirection.rtl);
-    return const MaterialApp();
+    return MaterialApp(home: CurrencyConverterMaterialPage());
   }
 }
