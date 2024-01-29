@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/cubit/todo_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'add_todo_page.dart';
+import 'todo_list.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-// Everything in flutter is a "widget" i.e. class
-
-// 1. Stateless widget: doesn't allow to update state (immutable state)
-
-// 2. Stateful widget: state can be updated / mutated
 
 class MyApp extends StatelessWidget {
   // const MyApp({key?: key}): super(key: key);
@@ -16,8 +14,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // when returning an widget (e.g. Text), use 'const'
-    // return const Text("Hello, Flutter", textDirection: TextDirection.rtl);
-    return const MaterialApp();
+    return BlocProvider(
+      create: (context) => TodoCubit(),
+      child: MaterialApp(
+        title: "Flutter Demo",
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true),
+        initialRoute: "/",
+        routes: {
+          "/": (_) => const TodoList(),
+          "/add-todo": (_) => const AddTodoPage(),
+        },
+      ),
+    );
   }
 }
