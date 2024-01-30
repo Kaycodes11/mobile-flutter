@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pallette.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'app_bloc_observer.dart';
+import 'bloc/auth_bloc.dart';
+import 'login_screen.dart';
 
 void main() {
+  Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
 
-// Everything in flutter is a "widget" i.e. class
-
-// 1. Stateless widget: doesn't allow to update state (immutable state)
-
-// 2. Stateful widget: state can be updated / mutated
-
 class MyApp extends StatelessWidget {
-  // const MyApp({key?: key}): super(key: key);
-  const MyApp({super.key}); // shorthand for the above code
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // when returning an widget (e.g. Text), use 'const'
-    // return const Text("Hello, Flutter", textDirection: TextDirection.rtl);
-    return const MaterialApp();
+    return BlocProvider(
+      create: (context) => AuthBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Pallete.backgroundColor,
+        ),
+        home: const LoginScreen(),
+      ),
+    );
   }
 }
