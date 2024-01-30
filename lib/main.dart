@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/weather_screen.dart';
+import 'package:flutter_application_1/presentation/screens/weather_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/weather_bloc.dart';
+import 'data/data_provider/weather_data_provider.dart';
+import 'data/repository/weather_repository.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // shorthand for the above code
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(useMaterial3: true),
-      home: const WeatherScreen(),
+    return RepositoryProvider(
+      create: (context) => WeatherRepository(
+        WeatherDataProvider(),
+      ),
+      child: BlocProvider(
+        // to access whatever returned from (here WeatherDataProvide()) from WaterRepository(....); do it as below
+        create: (context) => WeatherBloc(
+          context.read<WeatherRepository>(),
+        ),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.dark(useMaterial3: true),
+          home: const WeatherScreen(),
+        ),
+      ),
     );
   }
 }
-
-// Widget tree: it's the tree representation of the component being built here <Root> <MyApp> <MaterialApp> <WeatherScreen>
-
-// Element Tree: Reconciliation or diffing algo, decides the changes then sent to reflow and repaint
-
-// Render Tree: get the changes from "Element Tree" and "ReFlow (layout calculation) and RePaint (style changes)
